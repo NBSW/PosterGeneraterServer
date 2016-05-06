@@ -34,7 +34,10 @@ def getRandomString():
 @require_POST
 def get_image_mask(request):
     return_word = ''
-    words_str = request.POST.get('words')
+    word1 = request.POST.get('word1')
+    word2 = request.POST.get('word2')
+    word3 = request.POST.get('word3')
+    word4 = request.POST.get('word4')
     image = request.FILES.get('image')
 
     if image == None:
@@ -64,8 +67,16 @@ def get_image_mask(request):
     row_height = 50
     total_height = 530
     filename = "image_files/" +getRandomString()+ str(int(time.time())) + ".jpg"
-    if words_str:
-        words_arr = json.loads(words_str)
+    words_arr = []
+    if word1 != None:
+        words_arr.append(word1)
+    if word2 != None:
+        words_arr.append(word2)
+    if word3 != None:
+        words_arr.append(word3)
+    if word4 != None:
+        words_arr.append(word4)
+    if len(words_arr) > 0:
         for word in words_arr:
             total_height += row_height
             return_word =  return_word + word + '\n'
