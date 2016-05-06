@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_GET,require_POST
 from django.http import StreamingHttpResponse
 import json
-from PIL import Image,ImageDraw,ImageFont
+from PIL import Image,ImageDraw,ImageFont,ImageEnhance
 import time
 import sys
 import os
@@ -19,7 +19,7 @@ sys.setdefaultencoding('utf-8')
 first_word = unicode("妈妈是个美人儿")
 second_word = unicode("我想对你说")
 third_word = unicode("母亲节快乐！")
-color = (255, 144, 0, 128)
+color = (255, 100, 0, 255)
 hwzfnt = ImageFont.truetype('hwzs.TTF', 50)
 fnt = ImageFont.truetype('FZLTHJW.TTF', 30)
 width = 529.0
@@ -77,7 +77,8 @@ def get_image_mask(request):
     destination.close
     baseImage = Image.open(upload_filename)
     baseImage = resize(baseImage)   #图片缩放、裁剪
-    baseImage = baseImage.convert('L').convert("RGB")
+ #   baseImage = baseImage.convert('L').convert("RGB")
+    baseImage = ImageEnhance.Color(baseImage).enhance(0.2)
     draw = ImageDraw.Draw(baseImage)
     draw.text((30,411), first_word,font=hwzfnt,fill=color)
     draw = ImageDraw.Draw(baseImage)
@@ -109,7 +110,7 @@ def get_image_mask(request):
         return_file = baseImage.save(filename)
         file_object = open(filename)
         images_data = upload_image_to_restfulali(file_object.read())
-    os.remove(upload_filename)
+    #os.remove(upload_filename)
     os.remove(filename)
     return images_data
 
