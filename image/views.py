@@ -26,7 +26,7 @@ width = 532
 height = 742
 row_height = 33
 word1_y = 525
- 
+
 
 def getRandomString():
     num = int(time.time())%10
@@ -47,12 +47,12 @@ def get_image_mask(request):
 
     if image == None:
         return {"error":"no image"}
-    filename = "upload_files/" +getRandomString()+ str(time.time()) + '.jpeg'
-    with open(filename,'wb+') as destination:
+    upload_filename = "upload_files/" +getRandomString()+ str(time.time()) + '.jpeg'
+    with open(upload_filename,'wb+') as destination:
         for chunk in image.chunks():
             destination.write(chunk)
     destination.close
-    baseImage = Image.open(filename)
+    baseImage = Image.open(upload_filename)
     if baseImage.size[0] > width or baseImage.size[1] > height:
         x = 0
         y = 0
@@ -94,6 +94,8 @@ def get_image_mask(request):
         return_file = baseImage.save(filename)
         file_object = open(filename)
         images_data = upload_image_to_restfulali(file_object.read())
+    os.remove(upload_filename)
+    os.remove(filename)
     return images_data
 
 def upload_image_to_restfulali(image_data):
