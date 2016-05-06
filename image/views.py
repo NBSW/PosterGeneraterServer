@@ -16,6 +16,13 @@ from corelib.decorators import json_view
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+first_word = unicode("妈妈是个美人儿")
+second_word = unicode("我想对你说")
+third_word = unicode("母亲节快乐！")
+color = (255, 144, 0, 128)
+hwzfnt = ImageFont.truetype('hwzs.TTF', 60)
+fnt = ImageFont.truetype('FZLTHJW.TTF', 40)
+
 def getRandomString():
     num = int(time.time())%10
     random = os.urandom(num)
@@ -29,6 +36,9 @@ def get_image_mask(request):
     return_word = ''
     words_str = request.POST.get('words')
     image = request.FILES.get('image')
+
+    if image == None:
+        return {"error":"no image"}
     filename = "upload_files/" +getRandomString()+ str(time.time()) + '.jpeg'
     with open(filename,'wb+') as destination:
         for chunk in image.chunks():
@@ -48,17 +58,12 @@ def get_image_mask(request):
         baseImage = baseImage.crop(box)
     baseImage = baseImage.convert('L').convert("RGB")
     draw = ImageDraw.Draw(baseImage)
-    hwzfnt = ImageFont.truetype('hwzs.TTF', 60)
-    first_word = unicode("妈妈是个美人儿")
-    second_word = unicode("我想对你说")
-    third_word = unicode("母亲节快乐！")
-    color = (255, 144, 0, 128)
     draw.text((30,411), first_word,font=hwzfnt,fill=color)
-    fnt = ImageFont.truetype('FZLTHJW.TTF', 40)
     draw = ImageDraw.Draw(baseImage)
     draw.text((30,490), second_word,font=fnt,fill=color)
     row_height = 50
     total_height = 530
+    filename = "image_files/" +getRandomString()+ str(int(time.time())) + ".jpg"
     if words_str:
         words_arr = json.loads(words_str)
         for word in words_arr:
@@ -69,7 +74,10 @@ def get_image_mask(request):
         draw = ImageDraw.Draw(baseImage)
         draw.text((30,total_height),third_word,font=fnt,fill=color)
         del draw
-        filename = "image_files/" +getRandomString()+ str(int(time.time())) + ".jpg"
+        return_file = baseImage.save(filename)
+        file_object = open(filename)
+        images_data = upload_image_to_restfulali(file_object.read())
+    else:
         return_file = baseImage.save(filename)
         file_object = open(filename)
         images_data = upload_image_to_restfulali(file_object.read())
