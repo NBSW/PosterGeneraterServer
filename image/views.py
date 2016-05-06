@@ -64,8 +64,9 @@ def get_image_mask(request):
     draw.text((30,411), first_word,font=hwzfnt,fill=color)
     draw = ImageDraw.Draw(baseImage)
     draw.text((30,490), second_word,font=fnt,fill=color)
-    row_height = 50
+    row_height = 40
     total_height = 530
+    word1_y = total_height
     filename = "image_files/" +getRandomString()+ str(int(time.time())) + ".jpg"
     words_arr = []
     if word1 != None:
@@ -81,7 +82,7 @@ def get_image_mask(request):
             total_height += row_height
             return_word =  return_word + word + '\n'
         draw = ImageDraw.Draw(baseImage)
-        draw.text((30,total_height-row_height), return_word,font=fnt,fill=color)
+        draw.text((30,word1_y), return_word,font=fnt,fill=color)
         draw = ImageDraw.Draw(baseImage)
         draw.text((30,total_height),third_word,font=fnt,fill=color)
         del draw
