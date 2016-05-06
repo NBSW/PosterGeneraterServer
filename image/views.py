@@ -22,7 +22,7 @@ third_word = unicode("母亲节快乐！")
 color = (255, 144, 0, 128)
 hwzfnt = ImageFont.truetype('hwzs.TTF', 50)
 fnt = ImageFont.truetype('FZLTHJW.TTF', 30)
-width = 532.0
+width = 529.0
 height = 742.0
 row_height = 33
 word1_y = 525
@@ -32,6 +32,7 @@ def getRandomString():
     num = int(time.time())%10
     random = os.urandom(num)
     m1 = md5.new()
+    random = random+str(time.time())
     m1.update(random)
     return m1.hexdigest()
 
