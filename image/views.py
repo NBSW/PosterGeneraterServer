@@ -20,8 +20,8 @@ first_word = unicode("妈妈是个美人儿")
 second_word = unicode("我想对你说")
 third_word = unicode("母亲节快乐！")
 color = (255, 144, 0, 128)
-hwzfnt = ImageFont.truetype('hwzs.TTF', 50)
-fnt = ImageFont.truetype('FZLTHJW.TTF', 30)
+hwzfnt = ImageFont.truetype('kangxi.ttf', 50)
+fnt = ImageFont.truetype('sxsl.ttf', 30)
 width = 529.0
 height = 742.0
 row_height = 33
@@ -118,7 +118,10 @@ def upload_image_to_restfulali(image_data):
         data = {'dir':'/portrait','name':getRandomString()+'.jpg','size':str(int(len(image_data)))}
         token = "UPLOAD_AK_TOP MjMzMDQxMjM6ZXlKcGJuTmxjblJQYm14NUlqb2lNQ0lzSW01aGJXVnpjR0ZqWlNJNkluQnZjM1JsY2lJc0ltVjRjR2x5WVhScGIyNGlPaUl0TVNJc0ltUnBjaUk2SW5CdmNuUnlZV2wwSW4wOjVmMjE3ZTFkYjE2ZmY1ZGFjYWJiYmFjNWJiN2Q0NWRiMDJlNjc5ZTA"
         headers = {'Authorization': token}
-        return_data =  requests.post(url,data=data,headers=headers,files={'content':image_data}).json()
+        try:
+            return_data =  requests.post(url,data=data,headers=headers,files={'content':image_data}).json()
+        except:
+            return_data =  requests.post(url,data=data,headers=headers,files={'content':image_data}).json()
         return return_data
 
 
