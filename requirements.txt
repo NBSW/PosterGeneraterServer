@@ -1,3 +1,4 @@
 Pillow
 django
 requests
+django-cors-headers
