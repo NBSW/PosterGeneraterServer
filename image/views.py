@@ -22,8 +22,8 @@ third_word = unicode("母亲节快乐！")
 color = (255, 144, 0, 128)
 hwzfnt = ImageFont.truetype('hwzs.TTF', 50)
 fnt = ImageFont.truetype('FZLTHJW.TTF', 30)
-width = 532
-height = 742
+width = 532.0
+height = 742.0
 row_height = 33
 word1_y = 525
 
@@ -34,6 +34,28 @@ def getRandomString():
     m1 = md5.new()
     m1.update(random)
     return m1.hexdigest()
+
+def resize(baseImage):
+    f1 = width / baseImage.size[0]
+    f2 = height / baseImage.size[1]
+    factor = f2
+    new_width = int(baseImage.size[0] * factor)
+    new_height = int(baseImage.size[1] * factor)
+    baseImage = baseImage.resize((new_width,new_height),Image.ANTIALIAS)
+    baseImage = crop(baseImage)
+    return baseImage
+
+def crop( baseImage):
+    if baseImage.size[0] > width or baseImage.size[1] > height:
+        x = 0
+        y = 0
+        if baseImage.size[0] > width:
+            x = (baseImage.size[0] - width)/2
+        if baseImage.size[1] > height:
+            y = (baseImage.size[1] - height)/2
+        box = (x,y,width+x,height+y)
+        baseImage = baseImage.crop(box)
+    return baseImage
 
 @json_view
 @require_POST
@@ -53,15 +75,7 @@ def get_image_mask(request):
             destination.write(chunk)
     destination.close
     baseImage = Image.open(upload_filename)
-    if baseImage.size[0] > width or baseImage.size[1] > height:
-        x = 0
-        y = 0
-        if baseImage.size[0] > width:
-            x = (baseImage.size[0] - width)/2
-        if baseImage.size[1] > height:
-            y = (baseImage.size[1] - height)/2
-        box = (x,y,width+x,height+y)
-        baseImage = baseImage.crop(box)
+    baseImage = resize(baseImage)   #图片缩放、裁剪
     baseImage = baseImage.convert('L').convert("RGB")
     draw = ImageDraw.Draw(baseImage)
     draw.text((30,411), first_word,font=hwzfnt,fill=color)
