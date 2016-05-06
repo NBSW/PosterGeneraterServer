@@ -20,13 +20,8 @@ first_word = unicode("妈妈是个美人儿")
 second_word = unicode("我想对你说")
 third_word = unicode("母亲节快乐！")
 color = (255, 100, 0, 255)
-<<<<<<< HEAD
 hwzfnt = ImageFont.truetype('hwzs.TTF', 50)
 fnt = ImageFont.truetype('FZLTHJW.TTF', 30)
-=======
-hwzfnt = ImageFont.truetype('fzqkbys.TTF', 50)
-fnt = ImageFont.truetype('sxsl.ttf', 30)
->>>>>>> 3428ed2bc5bfcf11742e26fe5965f934c3cbe805
 width = 529.0
 height = 742.0
 row_height = 33
