@@ -1,0 +1,18 @@
+2016-05-07 00:37:26,138 INFO RPC interface 'supervisor' initialized
+2016-05-07 00:37:26,138 WARN cElementTree not installed, using slower XML parser for XML-RPC
+2016-05-07 00:37:26,138 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2016-05-07 00:37:26,139 INFO daemonizing the supervisord process
+2016-05-07 00:37:26,140 INFO supervisord started with pid 14076
+2016-05-07 00:37:27,142 INFO spawned: 'Bubble_Server' with pid 14093
+2016-05-07 00:37:30,574 INFO success: Bubble_Server entered RUNNING state, process has stayed up for > than 3 seconds (startsecs)
+2016-05-07 00:41:43,938 INFO waiting for Bubble_Server to die
+2016-05-07 00:41:43,938 INFO stopped: Bubble_Server (terminated by SIGTERM)
+2016-05-07 00:43:23,911 INFO RPC interface 'supervisor' initialized
+2016-05-07 00:43:23,911 WARN cElementTree not installed, using slower XML parser for XML-RPC
+2016-05-07 00:43:23,911 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2016-05-07 00:43:23,912 INFO daemonizing the supervisord process
+2016-05-07 00:43:23,912 INFO supervisord started with pid 18496
+2016-05-07 00:43:24,915 INFO spawned: 'Bubble_Server' with pid 18510
+2016-05-07 00:43:28,207 INFO success: Bubble_Server entered RUNNING state, process has stayed up for > than 3 seconds (startsecs)
+2016-05-07 00:43:57,988 INFO waiting for Bubble_Server to die
+2016-05-07 00:43:57,989 INFO stopped: Bubble_Server (terminated by SIGTERM)
