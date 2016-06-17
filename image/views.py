@@ -16,14 +16,14 @@ from corelib.decorators import json_view
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-first_word = unicode("妈妈是个美人儿")
+first_word = unicode("老爸你是我的大树")
 second_word = unicode("我想对你说")
-third_word = unicode("母亲节快乐！")
+third_word = unicode("父亲节快乐！")
 color = (255, 100, 0, 255)
 hwzfnt = ImageFont.truetype('hwzs.TTF', 50)
 fnt = ImageFont.truetype('FZLTHJW.TTF', 30)
 width = 529.0
-height = 742.0
+height =742.0
 row_height = 33
 word1_y = 525
 
@@ -67,7 +67,8 @@ def get_image_mask(request):
     word3 = request.POST.get('word3')
     word4 = request.POST.get('word4')
     image = request.FILES.get('image')
-
+    fillcolor = (255,100,0,255)
+    shadowcolor = 'white'
     if image == None:
         return {"error":"no image"}
     upload_filename = "upload_files/" +getRandomString()+ str(time.time()) + '.jpeg'
@@ -78,11 +79,13 @@ def get_image_mask(request):
     baseImage = Image.open(upload_filename)
     baseImage = resize(baseImage)   #图片缩放、裁剪
  #   baseImage = baseImage.convert('L').convert("RGB")
-    baseImage = ImageEnhance.Color(baseImage).enhance(0.2)
+    #baseImage = ImageEnhance.Color(baseImage).enhance(0.2)
     draw = ImageDraw.Draw(baseImage)
-    draw.text((30,411), first_word,font=hwzfnt,fill=color)
+    #draw.text((30,411), first_word,font=hwzfnt,fill=color)
+    drawtext(draw,first_word,30,411,hwzfnt,fillcolor,shadowcolor)
     draw = ImageDraw.Draw(baseImage)
-    draw.text((30,490), second_word,font=fnt,fill=color)
+    #draw.text((30,490), second_word,font=fnt,fill=color)
+    drawtext(draw,second_word,30,490,fnt,fillcolor,shadowcolor)
     filename = "image_files/" +getRandomString()+ str(int(time.time())) + ".jpg"
     words_arr = []
     if word1 != None:
@@ -98,10 +101,12 @@ def get_image_mask(request):
         for word in words_arr:
             total_height += row_height
             return_word =  return_word + word + '\n'
-        draw = ImageDraw.Draw(baseImage)
-        draw.text((30,word1_y), return_word,font=fnt,fill=color)
-        draw = ImageDraw.Draw(baseImage)
-        draw.text((30,total_height),third_word,font=fnt,fill=color)
+        draw = ImageDraw.Draw(baseImage) 
+        drawtext(draw,return_word,30,word1_y,fnt,fillcolor,shadowcolor)
+        #draw.text((30,word1_y), return_word,font=fnt,fill=color)
+        #draw = ImageDraw.Draw(baseImage)
+        #draw.text((30,total_height),third_word,font=fnt,fill=color)
+        drawtext(draw,third_word,30,total_height,fnt,fillcolor,shadowcolor)
         del draw
         return_file = baseImage.save(filename)
         file_object = open(filename)
@@ -113,6 +118,17 @@ def get_image_mask(request):
     os.remove(upload_filename)
     os.remove(filename)
     return images_data
+
+def drawtext(draw,text,x,y,font,fillcolor,shadowcolor):
+    draw.text((x-1, y), text, font=font, fill=shadowcolor)
+    draw.text((x+1, y), text, font=font, fill=shadowcolor)
+    draw.text((x, y-1), text, font=font, fill=shadowcolor)
+    draw.text((x, y+1), text, font=font, fill=shadowcolor)
+    draw.text((x-1, y-1), text, font=font, fill=shadowcolor)
+    draw.text((x+1, y-1), text, font=font, fill=shadowcolor)
+    draw.text((x-1, y+1), text, font=font, fill=shadowcolor)
+    draw.text((x+1, y+1), text, font=font, fill=shadowcolor)
+    draw.text((x, y), text, font=font, fill=fillcolor)
 
 def upload_image_to_restfulali(image_data):
         url = 'http://upload.media.aliyun.com/api/proxy/upload'
