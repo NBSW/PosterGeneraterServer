@@ -67,7 +67,7 @@ def get_image_mask(request):
     word3 = request.POST.get('word3')
     word4 = request.POST.get('word4')
     image = request.FILES.get('image')
-    fillcolor = (255,100,0,255)
+    fillcolor = 'black'
     shadowcolor = 'white'
     if image == None:
         return {"error":"no image"}
@@ -97,7 +97,7 @@ def get_image_mask(request):
     if word4 != None:
         words_arr.append(word4)
     if len(words_arr) > 0:
-	total_height = word1_y
+    total_height = word1_y
         for word in words_arr:
             total_height += row_height
             return_word =  return_word + word + '\n'
